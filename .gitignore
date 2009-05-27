@@ -1,0 +1,10 @@
+*~
+.svn
+.DS_Store
+*.iml
+*.ipr
+*.iws
+*.class
+target/
+nb-configuration.xml
+nbactions.xml
