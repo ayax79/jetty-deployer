@@ -28,6 +28,8 @@ import java.io.PrintWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServlet;
@@ -49,6 +51,7 @@ import org.mortbay.log.Log;
  */
 public class DeployerServlet extends HttpServlet
 {
+    private static final Logger logger = Logger.getLogger(DeployerServlet.class.getName());
 
     /**
      * The server object.
@@ -434,8 +437,8 @@ public class DeployerServlet extends HttpServlet
         } 
         catch (Exception e)
         {
+            logger.log(Level.SEVERE, "Could not stop context handler", e);
             sendError(response, "Could not stop context handler");
-            e.printStackTrace();
             error = true;
         }
         
@@ -455,12 +458,6 @@ public class DeployerServlet extends HttpServlet
             if (!webAppFile.exists())
             {
                 sendError(response, "Can't find a valid file for this context path");
-            } 
-            else if (!webAppFile.getPath().startsWith(webAppDirectory))
-            {
-                sendError(response,
-                        "The cargo jetty deployer will not currently delete a war that exists " 
-                        + "outside of the webapps directory of the server");
             } 
             else
             {
@@ -485,7 +482,7 @@ public class DeployerServlet extends HttpServlet
                 } 
                 else
                 {
-                    sendError(response, "Webapp with " + contextPath
+                    logger.severe("Webapp with " + contextPath
                             + " context has been undeployed"
                             + " but it couldn't be removed from the filesystem");
                 }
