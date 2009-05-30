@@ -121,10 +121,12 @@ public class DeployerServlet extends HttpServlet
 
         if (command.equals("/deploy"))
         {
+            logger.info("deploy called for path " + contextPath + " war url "+warURL);
             deploy(response, contextPath, warURL);
         } 
         else if (command.equals("/undeploy"))
         {
+            logger.info("undeploy called for path "+contextPath);
             undeploy(response, contextPath);
         } 
         else if (command.equals("/stop"))
